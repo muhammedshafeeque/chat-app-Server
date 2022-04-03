@@ -1,7 +1,9 @@
 
 const express= require('express')
 const rourer=express.Router()
-const authController=require('../Controllers/AuthController')
-rourer.post('/signup',authController.doSignup)
-rourer.post('/login',authController.doLogin)
+const userContoller=require('../Controllers/userContoller')
+const { protect } = require('../Functions/webToken')
+rourer.post('/signup',userContoller.doSignup)
+rourer.post('/login',userContoller.doLogin)
+rourer.get('/getusers/',protect,userContoller.findUsers)
 module.exports=rourer

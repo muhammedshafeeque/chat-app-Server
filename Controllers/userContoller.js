@@ -64,4 +64,45 @@ module.exports = {
       }
     }
   },
+  findUsers: async (req, res) => {
+    try {
+      
+      const keyword = req.query.search
+      ? {
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+           
+          ],
+          
+          
+        }
+      : {};
+    
+      let data = await db
+        .get()
+        .collection(collection.USER_COLLECTION)
+        .find(keyword).toArray()
+        const User=req.user
+        let result =[]
+        data.forEach(element => {
+          
+          if(User.email!=element.email){
+            result.push(element)
+          }
+          
+        });
+        if (result.length < 1) {
+          res.send({ error: "users not found" });
+          
+        } else {
+
+          res.send(result);
+        }
+        
+        
+    } catch (error) {
+      console.log({error:error})
+    }
+  },
 };
