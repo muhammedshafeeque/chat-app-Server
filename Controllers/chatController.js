@@ -4,7 +4,6 @@ const db = require("../Config/connection");
 module.exports = {
   chatAccess: async (req, res) => {
     const { userId } = req.body;
-
     try {
       let chat = await db
         .get()

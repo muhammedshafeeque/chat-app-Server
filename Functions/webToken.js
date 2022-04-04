@@ -14,7 +14,10 @@ module.exports={
                 token=req.headers.authorization.split(" ")[1]
                 const decoded=jwt.verify(token,process.env.JWT_TOCKEN_SECRET)
                 req.user=await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(decoded.id)})
+                req.user._id=decoded.id
                 next()
+                
+                
             } catch (error) {
                 res.send({error:"Not authorized, token failed"})
             }
