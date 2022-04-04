@@ -17,6 +17,34 @@ db.connect((err) => {
 app.use('/api/user',userRouter)
 app.use('/api/chat',protect,chatRouter)
 app.use('/api/message',protect,messageRouter)
-const server = app.listen(process.env.PORT, () => {
+const Server = app.listen(process.env.PORT, () => {
   console.log("Server runnig On " + process.env.PORT);
 });
+const io=require('socket.io')(Server,{ 
+  pingTimeout:60000,
+  cors:{
+    origin:"http://localhost:3000"        
+  }
+})
+ 
+io.on("connection",(socket)=>{
+  console.log('connected to Socket.io')
+  socket.on('setup',(userData)=>{
+
+    socket.join(userData.id)
+    socket.emit('connected')
+  })
+
+  socket.on("join chat",(chat)=>{
+    socket.join(chat)
+    console.log("User Joind Room :" + chat)
+  })
+  socket.on('new message',(newMessageRecived)=>{
+    var chat =newMessageRecived.chat 
+    if(!chat.users) return console.log('chat.users not defined')
+    chat.users.forEach(user=>{
+      if(user.userId==newMessageRecived.sender._id) return   
+      socket.in(user.userId).emit("message recieved",newMessageRecived)
+    })
+  })
+})
