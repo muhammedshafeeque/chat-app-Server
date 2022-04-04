@@ -2,4 +2,5 @@ var express=require('express')
 const router=express.Router()
 const messageController=require('../Controllers/messageController')
 router.post('/send',messageController.sendMessage)
-module.exports=router
+router.get('/fetch-messages/:chatId',messageController.getlAllmessages)
+module.exports=router   
