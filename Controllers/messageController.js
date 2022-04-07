@@ -3,11 +3,9 @@ const collection = require("../Config/collections");
 const db = require("../Config/connection");
 module.exports = {
   sendMessage: async (req, res) => {
-    
     const { sender, content, chatId } = req.body;
-  
+
     if (!sender || !content || !chatId) {
-      
       res.send({ error: "required all parameters" });
     } else {
       try {
@@ -43,18 +41,21 @@ module.exports = {
       }
     }
   },
-  getlAllmessages:async(req,res)=>{
-    const chatId=req.params.chatId
+  getlAllmessages: async (req, res) => {
+    const chatId = req.params.chatId;
     try {
-      let messages=await db.get().collection(collection.MESSAGE_COLLECTION).find({chat:chatId}).toArray()
-      if(messages){
-        res.send(messages)
-
-      }else{
-        res.send({error:'no messages found'})
+      let messages = await db
+        .get()
+        .collection(collection.MESSAGE_COLLECTION)
+        .find({ chat: chatId })
+        .toArray();
+      if (messages) {
+        res.send(messages);
+      } else {
+        res.send({ error: "no messages found" });
       }
     } catch (error) {
-      res.send({error:"message fetching faild"})
+      res.send({ error: "message fetching faild" });
     }
-  }
+  },
 };

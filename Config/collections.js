@@ -1,5 +1,5 @@
-module.exports={
-    USER_COLLECTION:'user',
-    CHAT_COLLECTION:'chat',
-    MESSAGE_COLLECTION:'message'
-}
+module.exports = {
+  USER_COLLECTION: "user",
+  CHAT_COLLECTION: "chat",
+  MESSAGE_COLLECTION: "message",
+};

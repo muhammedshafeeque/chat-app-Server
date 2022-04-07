@@ -47,16 +47,20 @@ module.exports = {
       res.send({ error: error });
     }
   },
-  fetchChats:async(req,res)=>{
+  fetchChats: async (req, res) => {
     try {
-      let chats=await db.get().collection(collection.CHAT_COLLECTION).find({ users: { $elemMatch: { userId: req.user._id }}}).toArray()
-      if(chats){
-        res.send(chats)
-      }else{
-        res.send({error:"no Chats Found"})
+      let chats = await db
+        .get()
+        .collection(collection.CHAT_COLLECTION)
+        .find({ users: { $elemMatch: { userId: req.user._id } } })
+        .toArray();
+      if (chats) {
+        res.send(chats);
+      } else {
+        res.send({ error: "no Chats Found" });
       }
     } catch (error) {
-      res.send({error:'chat fetching failed'})
+      res.send({ error: "chat fetching failed" });
     }
-  }
+  },
 };

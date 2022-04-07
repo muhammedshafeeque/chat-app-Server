@@ -1,9 +1,10 @@
 
 const express= require('express')
-const rourer=express.Router()
+const router =express.Router()
 const userContoller=require('../Controllers/userContoller')
 const { protect } = require('../Functions/webToken')
-rourer.post('/signup',userContoller.doSignup)
-rourer.post('/login',userContoller.doLogin)
-rourer.get('/getusers/',protect,userContoller.findUsers)
-module.exports=rourer
+router.post('/signup',userContoller.doSignup)
+router.get('/check-username/:username',userContoller.checkUserId)
+router.post('/login',userContoller.doLogin)
+router.get('/getusers/',protect,userContoller.findUsers)
+module.exports=router
